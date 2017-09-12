@@ -6,6 +6,7 @@ import Details from '@/components/details'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -13,7 +14,7 @@ export default new Router({
       component: Prizes
     },
    {
-      path: '/details',
+      path: '/details/:id',
       name: 'Details',
       component: Details
    }

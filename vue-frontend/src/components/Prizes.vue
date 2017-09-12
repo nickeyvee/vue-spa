@@ -9,7 +9,7 @@
             <div class="card-block">
                <h3 class="card-title">{{ prize.name }}</h3>
                <p class="card-text"></p>
-               <button class="h3" v-on:click="getCurrent( prize.id )">Redeem <i class="glyphicon glyphicon-menu-right"></i></button>
+               <a v-bind:href="selectedCurrentVal"><button class="h3" @click="getCurrent( prize )">Redeem <i class="glyphicon glyphicon-menu-right"></i></button></a>
             </div>
          </div>
       </div>
@@ -21,15 +21,13 @@
 export default {
   props: ['prizes'],
   data() {
-     return {
-         selected: ""
-     }
+      return {
+         selectedCurrentVal: ""
+      }
   },
-  computed: {
-     getCurrent: function( id ) {
-        console.log( id );
-         this.selected = id;
-         console.log( this.selected );
+  methods: {
+     getCurrent: function( el ) {
+        this.selectedCurrentVal = `/details/${ el.id }`;
      }
   }
 }
@@ -44,10 +42,10 @@ export default {
    }
    .prize {
       overflow: hidden;
-      box-shadow: 2px 2px 5px grey;
+      /* box-shadow: 2px 2px 5px grey; */
       border-radius: 3px;
       background: white;
-      margin: 5px;
+      margin: 10px auto;
    }
    .img-viewport {
       overflow: hidden;
