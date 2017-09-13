@@ -10,14 +10,15 @@
                <h3 class="card-title">{{ prize.name }}</h3>
                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                <div class="hr"></div>
-               <a href="/"><button class="btn-redeem h3">Redeem</button></a>
+               <button class="btn-redeem h3" @click="onRedeem">Redeem</button>
                <div class="hr"></div>
                <p>Only {{ prize.quantity }} units left!</p>          
             </div>
          </div>
       </div> 
       <div class="row-2">
-         <h3>This is a description</h3>
+         <!-- <h3>This is a description</h3> -->
+         <a href="/"><button class="back"><i class="glyphicon glyphicon-chevron-left"></i></button></a>
       </div>
    </div>
 </template>
@@ -43,13 +44,23 @@ export default {
    },
    mounted() {
       this.routeId = location.pathname.replace("/details/", "");
+   },
+   methods: {
+      onRedeem: function() {
+         this.$emit('activateDialog', this.routeId );
+      }
    }
 }
 </script>
 
 <style scoped>
+   a {   
+      text-decoration: none;
+   }
    .container {
+      position: relative;
       min-height: 650px;
+      z-index: 1;
    }
    .hr {
       border-radius: 50%;
@@ -69,6 +80,7 @@ export default {
       min-height: 300px; 
       width: 250px;
       margin: 10px auto;
+      margin-top: 50px;
    }
    .card-text {
       padding: 50px;
@@ -96,5 +108,16 @@ export default {
       transition: 0.2s;
       background: #FCBD24;
       color: black;
+   }
+   .back {
+      margin: 50px;
+      color: white;
+      width: 100px;
+      height: 100px;
+      background: black;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 55px;
+      border: none;
    }
 </style>

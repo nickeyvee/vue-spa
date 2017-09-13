@@ -2,10 +2,22 @@ const db = require('mongodb');
 const MongoClient = db.MongoClient;
 
 const mongoService = {
+   pool: null,
    data: [],
 
-   getDataRepo: function( url ) {
+   queryAll: function() {
       return this.data;
+   },
+
+   updateLocal: function() {
+      const cache = [];
+
+      this.pool.find().forEach( doc => {
+         cache.push( doc );
+      }, () => {
+         this.data = cache;
+         console.log( this.queryAll() );
+      });
    },
 
    openConnection: function( url, callback ) {   
@@ -18,19 +30,38 @@ const mongoService = {
          } else {
             console.log("connected to mongoDB @ " + url);
 
-            const prizes = db.collection('prize-storage').find();
+            this.pool = db.collection('prize-storage');
+
+            const prizes = this.pool.find();
 
             prizes.forEach( doc => {
-               this.data.push( doc.data );
+               this.data.push( doc );
             }, () => {
-               this.data = this.data[0];
-               // console.log( this.data );          
-               db.close();       
+               // console.log( this.data ); 
+               callback();                            
             });
-
-            callback();
          }
       })
+   },
+   updateQuantity: function( _id, callback ) {
+
+      const o_id = new db.ObjectID( _id );
+      const query = { "_id": o_id };
+
+      this.pool.find( query, { } )
+      .forEach( item => {
+         if( item.quantity > 0 ) {
+            try {
+               this.pool.updateOne( query, { $inc: { "quantity": -1 } } );         
+            }
+            catch( e ) {
+               console.log( e );
+            }
+            return callback(`${ item.name } inventory successfully updated.`);
+         } else {
+            return callback(`${ item.name } is sold out.`); 
+         }
+      });
    }
 }
 module.exports = mongoService;
