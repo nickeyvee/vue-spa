@@ -17,7 +17,6 @@
          </div>
       </div> 
       <div class="row-2">
-         <!-- <h3>This is a description</h3> -->
          <a href="/"><button class="back"><i class="glyphicon glyphicon-chevron-left"></i></button></a>
       </div>
    </div>
@@ -36,7 +35,6 @@ export default {
       prizes: function() {
          for (let i = 0; i < this.prizes.length; i++ ) {
             if ( this.prizes[i].id === this.routeId ) {
-               console.log( "match" );
                return this.prize = this.prizes[i];
             }
          }

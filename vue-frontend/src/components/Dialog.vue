@@ -2,9 +2,17 @@
    <div class="container">
       <div class="overlay"></div>
       <div class="card">
-         <h1> Redeem your prize?</h1>
-         <button class="btn btn-primary" @click="onConfirmation">Yes</button>
-         <button class="btn btn-danger" @click="cancel">Cancel</button>
+         <div class="card-item" v-if="!response">
+            <h1>Redeem your prize?</h1>
+            <button class="btn half btn-primary btn-lg" @click="onConfirmation">Yes</button>
+            <button class="btn half btn-danger btn-lg" @click="destroy">Cancel</button>
+         </div>
+
+         <div class="card-item" v-else-if="response">
+            <h1>{{ message }}</h1>
+            <button type="button" class="btn btn-warning btn-lg btn-block" @click="destroy">Continue</button>
+         </div>
+
       </div>      
    </div>
 </template>
@@ -12,20 +20,25 @@
 <script>
 export default {
   props: ['prizeId'],
+  data() {
+     return {
+         response: false,
+         message: ""
+     }
+  },
   methods: {
-     cancel: function() {
+     destroy: function() {
         this.$emit("destroy");
+        this.$router.push({ path: '/'});        
      },
      onConfirmation: function() {
-         console.log( this.prizeId );
          this.$http.put(`${ location.origin }/api/decrement/${ this.prizeId }`)
          .then( response => {
             return response.text();
          })
          .then( msg => {
-            console.log( msg );
-            this.$router.push({ path: '/'});
-            this.cancel();
+            this.response = true;
+            this.message = msg;
          });
      }
   }
@@ -33,9 +46,12 @@ export default {
 </script>
 
 <style scoped>
-   button {
-      width: 150px;
-      margin: 25px;
+   h1, .h1 {
+      padding: 50px;
+   }
+   .half {
+      width: 45%;
+      margin: 20px auto;
       margin-top: 100px;
    }
    .container {
@@ -53,10 +69,15 @@ export default {
       opacity: 0.8;
       z-index: 89;     
    }
+   .card-item {
+      padding: 30px;
+      width: 100%;
+   }
    .card {
       background: white;
       border-radius: 5px;
       position: relative;
+      display: table;
       height: 350px;     
       width: 600px;
       margin-left: auto;

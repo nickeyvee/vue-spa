@@ -56,16 +56,13 @@ export default {
       const data = json.data;
       for( let i = 0; i < data.length; i++ ) {
 
-         console.log( data[i]._id );
-
-          this.prizes.push({
+         this.prizes.push({
             id: data[i]._id, name: data[i].name,
             desc: data[i].description,
             quantity: data[i].quantity,              
             image_url: data[i].image_url
-          })
+         })
        }
-       console.log( typeof this.prizes );
    })
   }
 }

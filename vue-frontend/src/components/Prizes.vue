@@ -1,6 +1,6 @@
 <template>
    <div>
-      <h1>Redeem your prize for a chance to win!</h1>
+      <h1>Redeem your prize!</h1>
       <div class="container">
          <div class="card prize" v-for="prize in prizes" v-bind:key="prize.id" style="width: 35rem;">
             <div class="img-viewport">
@@ -33,7 +33,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
    .container {
       display: flex;
@@ -42,7 +41,6 @@ export default {
    }
    .prize {
       overflow: hidden;
-      /* box-shadow: 2px 2px 5px grey; */
       border-radius: 3px;
       background: white;
       margin: 10px auto;
