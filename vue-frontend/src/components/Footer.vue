@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-   <h3>{{ text }}</h3>
+   <p>{{ text }}</p>
   </div>
 </template>
 
@@ -24,9 +24,9 @@ export default {
       background: black;
       margin: 0 auto;
    }
-   h3 {
+   p {
       color: white;
-      text-align: center;
-      padding: 50px;
+      width: 100%;
+      margin: auto;
    }
 </style>

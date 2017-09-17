@@ -16,7 +16,7 @@ const mongoService = {
          cache.push( doc );
       }, () => {
          this.data = cache;
-         // console.log( this.queryAll() );
+         console.log( this.queryAll() );
       });
    },
 

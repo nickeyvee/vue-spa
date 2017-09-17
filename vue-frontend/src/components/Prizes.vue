@@ -1,17 +1,17 @@
 <template>
    <div>
-      <h1>Redeem your prize!</h1>
+      <h3>Redeem your prize!</h3>
       <div class="container">
-         <div class="card prize" v-for="prize in prizes" v-bind:key="prize.id" style="width: 35rem;">
-            <div class="img-viewport">
-               <img class="card-img-top" v-bind:src="prize.image_url" alt="Card image cap">       
-            </div>
-            <div class="card-block">
+         <v-card class="prize" v-for="prize in prizes" v-bind:key="prize.id" style="width: 32rem;">
+            <v-card-media v-bind:src="prize.image_url" height="300px">
+            </v-card-media>
+
+            <v-card-text>
                <h3 class="card-title">{{ prize.name }}</h3>
                <p class="card-text"></p>
-               <a v-bind:href="selectedCurrentVal"><button class="h3" @click="getCurrent( prize )">Redeem <i class="glyphicon glyphicon-menu-right"></i></button></a>
-            </div>
-         </div>
+            </v-card-text>
+            <v-btn class="h3 button" @click="getCurrent( prize )">Redeem <i class="glyphicon glyphicon-menu-right"></i></v-btn>            
+         </v-card>
       </div>
    </div>
 </template>
@@ -19,15 +19,15 @@
 <script>
 
 export default {
-  props: ['prizes'],
-  data() {
-      return {
-         selectedCurrentVal: ""
-      }
+  computed: {
+     prizes: function() {
+         return this.$store.state.prizes
+     }
   },
   methods: {
      getCurrent: function( el ) {
-        this.selectedCurrentVal = `/details/${ el.id }`;
+        this.$store.state.prize = el;
+        this.$router.push(`/details/${ el.id }`);
      }
   }
 }
@@ -37,9 +37,11 @@ export default {
    .container {
       display: flex;
       flex-wrap: wrap;
-      flex-grow: 2;      
+      flex-grow: 2;
+      width: 90%;  
    }
    .prize {
+      min-width: 280px;
       overflow: hidden;
       border-radius: 3px;
       background: white;
@@ -53,7 +55,7 @@ export default {
    img {
       width: 100%;
    }
-   button {
+   .button {
       background: black;
       border: none;
       color: white;
@@ -63,7 +65,7 @@ export default {
    }
    button:hover {
       transition: 0.2s;
-      background: #FCBD24;
+      background: #FFCA28;
       color: black;
    }
    .card-title {

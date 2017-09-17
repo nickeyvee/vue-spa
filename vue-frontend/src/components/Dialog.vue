@@ -1,18 +1,17 @@
 <template>
-   <div class="container">
+   <div class="wrapper">
       <div class="overlay"></div>
       <div class="card">
          <div class="card-item" v-if="!response">
-            <h1>Redeem your prize?</h1>
-            <button class="btn half btn-primary btn-lg" @click="onConfirmation">Yes</button>
-            <button class="btn half btn-danger btn-lg" @click="destroy">Cancel</button>
+            <h2>Redeem your prize?</h2>
+            <v-btn class="btn half btn-primary btn-lg" @click="onConfirmation">Yes</v-btn>
+            <v-btn class="btn half btn-danger btn-lg" @click="destroy">Cancel</v-btn>
          </div>
 
          <div class="card-item" v-else-if="response">
-            <h1>{{ message }}</h1>
-            <button type="button" class="btn btn-warning btn-lg btn-block" @click="destroy">Continue</button>
+            <h2>{{ message }}</h2>
+            <v-btn type="button" class="btn btn-warning btn-lg btn-block" @click="destroy">Continue</v-btn>
          </div>
-
       </div>      
    </div>
 </template>
@@ -29,11 +28,12 @@ export default {
   methods: {
      destroy: function() {
         this.$emit("destroy");
-        this.$router.push({ path: '/'});        
      },
      onConfirmation: function() {
+        console.log( this.prizeId );
          this.$http.put(`${ location.origin }/api/decrement/${ this.prizeId }`)
          .then( response => {
+            console.log( response.text() );
             return response.text();
          })
          .then( msg => {
@@ -54,8 +54,9 @@ export default {
       margin: 20px auto;
       margin-top: 100px;
    }
-   .container {
+   .wrapper {
       position: absolute;
+      margin: 0 auto;
       width: 100%;
       height: 100%;
       z-index: 50;

@@ -3,7 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueResource from 'vue-resource';
+import VueResource from 'vue-resource'
+import * as firebase from 'firebase'
+import Vuetify from 'vuetify'
+import { store } from './store'
+
+// import('../node_modules/vuetify/dist/vuetify.min.css');
+
+Vue.use(Vuetify)
 
 Vue.config.productionTip = false;
 
@@ -13,6 +20,17 @@ Vue.use(VueResource);
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created() {
+     firebase.initializeApp({
+      apiKey: "AIzaSyAYIDjWzgrNaZgZArQYutSgljJ_Nc9Uj68",
+      authDomain: "razz-project.firebaseapp.com",
+      databaseURL: "https://razz-project.firebaseio.com",
+      projectId: "razz-project",
+      storageBucket: "razz-project.appspot.com",
+      messagingSenderId: "977519312818"
+   });
+  }
 })
