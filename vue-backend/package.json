@@ -1,0 +1,21 @@
+{
+  "name": "vue-heroku",
+  "version": "1.0.0",
+  "description": "heroku server for vue-frontend",
+  "author": "Nicholas  Vorraso <nvorraso2020@gmail.com>",
+  "main": "server.js",
+  "engines": {
+    "node": "~6.9.5",
+    "npm": "~4.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4",
+    "mongodb": "^2.2.31",
+    "path": "^0.12.7"
+  }
+}
