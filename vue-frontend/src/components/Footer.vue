@@ -1,7 +1,8 @@
 <template>
-  <div class="footer">
-   <p>{{ text }}</p>
-  </div>
+  <v-footer class="footer">
+    <v-spacer></v-spacer>
+    <p>{{ text }}</p>    
+  </v-footer>
 </template>
 
 <script>
@@ -20,7 +21,7 @@ export default {
       bottom: 0;  
       width: 100%;
       height: 175px;
-      position: relative;
+      position: static;
       background: black;
       margin: 0 auto;
    }

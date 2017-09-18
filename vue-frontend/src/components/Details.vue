@@ -1,22 +1,21 @@
 <template>
    <div class="container">
       <div class="row-1">
-         <!-- <div class="card img-viewport" style="width: 40rem;">
-            <img class="card-img-top" v-bind:src="prize.image_url" alt="Card image cap">
-         </div> -->
          <v-card style="width: 40rem;">
-            <v-card-media v-bind:src="prize.image_url" height="100%">
+            <v-card-media v-bind:src="this.$store.state.prize.image_url" height="100%">
             </v-card-media>
          </v-card>
 
          <div class="card" style="width: 40rem;">
             <div class="card-block">
-               <h3 class="card-title">{{ prize.name }}</h3>
+               <h3 class="card-title">{{ this.$store.state.prize.name }}</h3>
                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                <div class="hr"></div>
-               <button class="btn-redeem h3" @click="onRedeem">Redeem</button>
+               <!-- <button class="btn-redeem h3" @click="onRedeem">Redeem</button> -->
+               <v-btn class="btn-redeem h3" @click="onRedeem"
+                  :class="{ red: !valid }" :disabled="!valid" >Redeem</v-btn>
                <div class="hr"></div>
-               <p>Only {{ prize.quantity }} units left!</p>          
+               <p>Available: {{ this.$store.state.prize.quantity }}</p>        
             </div>
          </div>
       </div> 
@@ -29,35 +28,34 @@
 <script>
 export default {
    // props: ['prizes'],
-   computed: {
-      prize: function() {
-         return this.$store.state.prize;
-      }
-   },
    data() {
       return {
-         routeId: ""
-         // prize: ""
+         routeId: '',
+         // prize: ''
+      }
+   },
+   computed: {
+      valid() {
+         return this.$store.state.prize.quantity > 0 ? true : false;
       }
    },
    // watch: {
    //    prizes: function() {
-   //       // for (let i = 0; i < this.prizes.length; i++ ) {
-   //       //    if ( this.prizes[i].id === this.routeId ) {
-   //       //       return this.prize = this.prizes[i];
-   //       //    }
-   //       // }
+   //       for (let i = 0; i < this.$store.state.prizes.length; i++ ) {
+   //          if ( this.prizes[i].id === this.routeId ) {
+   //             return this.prize = this.prizes[i];
+   //          }
+   //       }
    //       console.log( this.prize );
    //       return this.prize.id;
    //    }
    // },
    mounted() {
       this.routeId = location.pathname.replace("/details/", "");
-      // console.log( this.$store.state.prize );
    },
    methods: {
       onRedeem: function() {
-         console.log( this.routeId );
+         this.$store.state.dialog_state = "redeem";
          this.$emit('activateDialog', this.routeId );
       }
    }
@@ -115,11 +113,11 @@ export default {
       border: none;
       margin: 20px auto;
    }
-   .btn-redeem:hover {
+   /* .btn-redeem:hover {
       transition: 0.2s;
       background: #FFCA28;
       color: black;
-   }
+   } */
    .back {
       margin: 50px;
       color: white;

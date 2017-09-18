@@ -21,6 +21,11 @@ export default new Router({
       name: 'signup',
       component: Signup,
      },
+     {
+         path: '/login',
+         name: 'Login',
+         component: Login
+    },
     {
       path: '/prizes',
       name: 'Prizes',
@@ -31,20 +36,25 @@ export default new Router({
          if (user) {
             return next();
          } else {
-            return next( false );
+            return next({path: '/login'});            
          }
        })
       }
     },
    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-   },
-   {
       path: '/details/:id',
       name: 'Details',
-      component: Details
+      component: Details,
+      beforeEnter: (to, from, next) => {
+
+       firebase.auth().onAuthStateChanged(function(user) {
+         if (user) {
+            return next();
+         } else {
+            return next({path: '/login'});
+         }
+       })
+      }
    }
   ]
 })

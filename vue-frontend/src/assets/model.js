@@ -18,7 +18,7 @@ const data = [
    name: 'bicycle',
    description: '',
    image_url: 'http://theradavist.com/wp-content/uploads/2016/04/bicycle-crumbs-grimes-01.jpg',
-   quantity: 3 },
+   quantity: 0 },
 { id: "59b95bee11feab4fb48ca2e9",
    name: 'roadster',
    description: '',

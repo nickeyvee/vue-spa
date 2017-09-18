@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <component :is="component" :prizeId="prizeId" v-on:destroy="destroyDialog"></component>
+    <component :is="component" :prizeId="prizeId" v-on:destroy="destroyDialog" ></component>
     <app-navbar class="amber darken-2" v-on:changedAuthState="updateAuthState"></app-navbar>
     <div class="banner amber lighten-1">
+       <h2>{{ this.$store.state.title }}</h2>
     </div>
-    <router-view v-on:activateDialog="initDialog($event)"></router-view>
+    <router-view v-on:activateDialog="initDialog($event)" v-on:updatePrizes="getPrizes()"></router-view>
     <app-footer></app-footer>
   </div>
 </template>
@@ -25,7 +26,7 @@ export default {
    },
    data() {
      return {
-         // prizes: [],
+         errorMsg: '',
          showDialog: false,
          component: "",
          prizeId: "",
@@ -35,57 +36,27 @@ export default {
   },
   methods: {
      initDialog: function( id ) {
-       this.component = "dialog-box";
        this.prizeId = id;
-      //  console.log( this.prizeId );
+       this.component = "dialog-box";      
      },
      updateAuthState: function() {
        this.authState = firebase.auth().currentUser
     },
-    getter: function() {
-      let cache = [];
-
-      this.$http.get(`${ location.origin }/api/data`)
-      .then( response => {
-         return response.json();
-      }, response => {
-         // I will use a local object when I am not connected to my database
-         // to test the rendering of data to my template.
-         if ( response ) {
-            for ( let prize of testData ) {
-               cache.push( prize );
-            }
-         }
-      }).then( json => {
-         
-         const data = json.data;
-         for( let i = 0; i < data.length; i++ ) {
-
-            cache.push({
-               id: data[i]._id, name: data[i].name,
-               desc: data[i].description,
-               quantity: data[i].quantity,              
-               image_url: data[i].image_url
-            })
-         }
-      })
-         console.log( cache );
-         return this.$store.state.prizes = cache;
-      
-    },
     destroyDialog: function() {
-       let update = new Promise(( resolve, reject ) => {
-         resolve( this.getter() );
-       });
-       update.then(() => {
-          console.log( "done" );
-          this.$router.push('/prizes');
-       })
+      //  let update = new Promise(( resolve, reject ) => {
+      //    resolve( this.getPrizes() );
+      //  });
+      //  update.then( val => {
+      //     console.log( val );
+      //     console.log( this.$store.state.prizes );
+      //     this.$router.push('/prizes');
+      //  })
        this.component = "";
+       this.$router.push('/prizes');       
      }
   },
   created() {
-     this.getter();
+     this.$store.dispatch('fetchPrizeData');
   }
 }
 </script>
@@ -105,7 +76,7 @@ export default {
    display: table;
     background: #FCBD24; 
    font-family: 'Heebo', sans-serif;
-   height: 150px;
+   height: 125px;
    width: 100%;   
 }
 h1, .h1 {

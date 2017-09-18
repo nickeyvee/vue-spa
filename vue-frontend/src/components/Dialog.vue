@@ -2,23 +2,36 @@
    <div class="wrapper">
       <div class="overlay"></div>
       <div class="card">
+
+       <div v-if="this.$store.state.dialog_state ==='error'">
+         <h2>{{ errorMsg }}</h2>
+      </div> 
+
+      <div v-if="this.$store.state.dialog_state ==='redeem'">
          <div class="card-item" v-if="!response">
-            <h2>Redeem your prize?</h2>
+            <h2>Redeem item?</h2>
+            <div class="hr"></div>
+            <p class="card-title">{{ this.$store.state.prize.name }}</p>
+            <p>x 1</p>
+            <div class="hr"></div>            
             <v-btn class="btn half btn-primary btn-lg" @click="onConfirmation">Yes</v-btn>
             <v-btn class="btn half btn-danger btn-lg" @click="destroy">Cancel</v-btn>
          </div>
 
          <div class="card-item" v-else-if="response">
-            <h2>{{ message }}</h2>
+            <h3>{{ message }}</h3>
+            <div class="hr"></div>
             <v-btn type="button" class="btn btn-warning btn-lg btn-block" @click="destroy">Continue</v-btn>
          </div>
-      </div>      
+      </div>
+
+      </div>    
    </div>
 </template>
 
 <script>
 export default {
-  props: ['prizeId'],
+  props: ['prizeId', 'errorMsg'],
   data() {
      return {
          response: false,
@@ -27,18 +40,25 @@ export default {
   },
   methods: {
      destroy: function() {
+        console.log("continue");
+        console.log( this.$store.state.prizes );
         this.$emit("destroy");
      },
      onConfirmation: function() {
-        console.log( this.prizeId );
          this.$http.put(`${ location.origin }/api/decrement/${ this.prizeId }`)
          .then( response => {
-            console.log( response.text() );
+            console.log( response );
             return response.text();
          })
          .then( msg => {
             this.response = true;
             this.message = msg;
+
+            this.$store.dispatch('fetchPrizeData');
+            console.log( this.$store.state.prizes );
+         })
+         .catch( error => {
+            console.log( error );
          });
      }
   }
@@ -46,13 +66,20 @@ export default {
 </script>
 
 <style scoped>
-   h1, .h1 {
-      padding: 50px;
+   h2, .h2 {
+      font-size: 25px;
+      padding: 20px;
    }
    .half {
       width: 45%;
       margin: 20px auto;
-      margin-top: 100px;
+   }
+   .hr {
+      border-radius: 50%;
+      background: #E9E9E9;
+      margin: 10px auto;
+      height: 2px;
+      width: 85%;
    }
    .wrapper {
       position: absolute;
@@ -77,15 +104,13 @@ export default {
    .card {
       background: white;
       border-radius: 5px;
-      position: relative;
-      display: table;
-      height: 350px;     
-      width: 600px;
+      position: sticky;
+      width: 450px;
       margin-left: auto;
       margin-right: auto;
       cursor: pointer;
       z-index: 99;
-      top: 25%;
+      top: 20%;
       right: 0;      
       left: 0;
    }

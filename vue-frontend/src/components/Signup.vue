@@ -1,39 +1,44 @@
 <template>
    <div>
-      <!-- <h3>Signup</h3> -->
       <v-card class="form-card" style="width: 350px">
          <v-toolbar class="amber lighten-1" dark>
-            <v-toolbar-title>Create an account</v-toolbar-title>
+            <v-toolbar-title>Sign up</v-toolbar-title>
          </v-toolbar>
          <v-form class="form" v-model="valid">
-         <v-text-field
-            label="E-mail"
-            v-model="email"
-            :rules="emailRules"
-            required
-         ></v-text-field>
-         <v-text-field
-            type="password"
-            label="password"
-            v-model="password"
-            :rules="passwordRules"
-            required
-         ></v-text-field>
-         <v-text-field
-            type="password"
-            label="verify password"
-            v-model="passwordValid"
-            :rules="passwordVerifyRules"
-            required
-         ></v-text-field>
-         <v-btn @click="submit" :class="{ green: valid, red: !valid }" class="submit-btn">submit</v-btn>
-      </v-form>
+            <v-text-field
+               label="E-mail"
+               v-model="email"
+               :rules="emailRules"
+               required
+            ></v-text-field>
+            <v-text-field
+               type="password"
+               label="password"
+               v-model="password"
+               :rules="passwordRules"
+               required
+            ></v-text-field>
+            <v-text-field
+               type="password"
+               label="verify password"
+               v-model="passwordValid"
+               :rules="passwordVerifyRules"
+               required
+            ></v-text-field>
+            <v-btn @click="submit" :class="{ green: valid, red: !valid }" class="submit-btn">submit</v-btn>
+         </v-form>
+
+         <v-alert v-if="errorCode" error value="true">
+            <p>{{ errorMessage }}</p>
+         </v-alert>
+
       </v-card>
    </div>
 </template>
 
 <script>
 import * as firebase from 'firebase';
+
 
 export default {
    data () {
@@ -42,6 +47,8 @@ export default {
       email: '',
       password: '',
       passwordValid: '',
+      errorCode: null,
+      errorMessage: '',
       emailRules: [
          (v) => !!v || 'E-mail is required',
          (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
@@ -56,16 +63,30 @@ export default {
       ]}
    },
    methods: {
+      activateDialog: function( error ) {
+         this.$store.state.dialog_state = "error";
+         this.$emit('activateDialog', { msg: error });
+      },
       submit () {
         if ( this.valid ) {
-          firebase.auth().createUserWithEmailAndPassword( this.email, this.password ).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
+          this.errorCode = null;
+          firebase.auth().createUserWithEmailAndPassword( this.email, this.password )
+          .then( response => {
+             if( response ) {
+                console.log( "success" );            
+                this.$store.state.changeAuthState();
+                this.$router.push('/prizes');
+             }
+          })
+          .catch( error => {
+            this.errorCode = error.code;
+            this.errorMessage = error.message;
           });
         }
       }
+   },
+   mounted() {
+      this.$store.state.title = "Create a new account"
    }
 }
 </script>

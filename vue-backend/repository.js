@@ -9,15 +9,19 @@ const mongoService = {
       return this.data;
    },
 
-   updateLocal: function() {
-      const cache = [];
+   updateLocal: function( callback ) {
+      return new Promise((resolve, reject) => {
 
-      this.pool.find().forEach( doc => {
-         cache.push( doc );
-      }, () => {
-         this.data = cache;
-         console.log( this.queryAll() );
-      });
+         this.pool.find().toArray((err, data) => {
+            if (err) {
+               console.log(err);
+               reject(err);
+            } else {
+               console.log('done!');
+               resolve( data );                        
+            }
+         })
+      })
    },
 
    openConnection: function( url, callback ) {   
@@ -57,9 +61,9 @@ const mongoService = {
             catch( e ) {
                console.log( e );
             }
-            return callback(`You have redeemed your prize!`);
+            return callback( 202, `You have redeemed your prize!`);
          } else {
-            return callback(`${ item.name } is no longer available.`); 
+            return callback( 406, `${ item.name } is no longer available.`); 
          }
       });
    }

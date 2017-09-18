@@ -26,9 +26,18 @@ export default {
   },
   methods: {
      getCurrent: function( el ) {
-        this.$store.state.prize = el;
+      //   this.$store.dispatch('updatePrizeState', el );
+        console.log("redeem clicked");      
+        console.log( el );
+        
+        this.$store.commit('setCurrentPrize', el );
         this.$router.push(`/details/${ el.id }`);
      }
+  },
+  mounted() {
+      console.log('mounted prizes vue');
+      console.log();      
+      this.$store.state.title = "Catalogue"
   }
 }
 </script>
