@@ -60,7 +60,7 @@ export default {
       },
       updateState() {
          this.$emit("changeAuthState");
-         console.log( this.$store.state.authState );
+         // console.log( this.$store.state.authState );
       },
       navigate() {
          this.$router.push('/prizes');
@@ -69,9 +69,9 @@ export default {
          if( this.valid ) {
             firebase.auth().signInWithEmailAndPassword( this.email, this.password )
             .then(() => {
-               console.log( "success" );
+               // console.log("success");
                this.$store.commit('setAuthState');        
-               this.$router.push('/prizes');                             
+               this.$router.push('/prizes');                         
             })
             .catch( error => {
                this.errorCode = error.code;

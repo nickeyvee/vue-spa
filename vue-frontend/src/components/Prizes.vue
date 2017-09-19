@@ -1,18 +1,15 @@
 <template>
-   <div>
-      <h3>Redeem your prize!</h3>
-      <div class="container">
-         <v-card class="prize" v-for="prize in prizes" v-bind:key="prize.id" style="width: 32rem;">
-            <v-card-media v-bind:src="prize.image_url" height="300px">
-            </v-card-media>
+   <div class="container">
+      <v-card class="prize" v-for="prize in prizes" v-bind:key="prize.id" style="width: 32rem;">
+         <v-card-media v-bind:src="prize.image_url" height="300px">
+         </v-card-media>
 
-            <v-card-text>
-               <h3 class="card-title">{{ prize.name }}</h3>
-               <p class="card-text"></p>
-            </v-card-text>
-            <v-btn class="h3 button" @click="getCurrent( prize )">Redeem <i class="glyphicon glyphicon-menu-right"></i></v-btn>            
-         </v-card>
-      </div>
+         <v-card-text>
+            <h3 class="card-title">{{ prize.name }}</h3>
+            <p class="card-text"></p>
+         </v-card-text>
+         <v-btn class="h3 button" @click="getCurrent( prize )">Redeem <i class="glyphicon glyphicon-menu-right"></i></v-btn>            
+      </v-card>
    </div>
 </template>
 
@@ -26,17 +23,14 @@ export default {
   },
   methods: {
      getCurrent: function( el ) {
-      //   this.$store.dispatch('updatePrizeState', el );
-        console.log("redeem clicked");      
-        console.log( el );
-        
+      //   console.log("redeem clicked");   
+      //   console.log( el );
         this.$store.commit('setCurrentPrize', el );
         this.$router.push(`/details/${ el.id }`);
      }
   },
   mounted() {
-      console.log('mounted prizes vue');
-      console.log();      
+      // console.log('mounted prizes vue');
       this.$store.state.title = "Catalogue"
   }
 }
@@ -80,6 +74,9 @@ export default {
    .card-title {
       padding: 30px;
       margin: 0;
+   }
+   .card-text {
+      padding: 0;
    }
    h1, .h1 {
       padding: 50px;

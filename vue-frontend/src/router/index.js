@@ -32,11 +32,12 @@ export default new Router({
       component: Prizes,
       beforeEnter: (to, from, next) => {
 
-       firebase.auth().onAuthStateChanged(function(user) {
+       firebase.auth().onAuthStateChanged( user =>  {
+         //  console.log( user );        
          if (user) {
             return next();
          } else {
-            return next({path: '/login'});            
+            return next('/login');            
          }
        })
       }
@@ -48,6 +49,7 @@ export default new Router({
       beforeEnter: (to, from, next) => {
 
        firebase.auth().onAuthStateChanged(function(user) {
+         //  console.log( user );
          if (user) {
             return next();
          } else {

@@ -43,16 +43,8 @@ export default {
        this.authState = firebase.auth().currentUser
     },
     destroyDialog: function() {
-      //  let update = new Promise(( resolve, reject ) => {
-      //    resolve( this.getPrizes() );
-      //  });
-      //  update.then( val => {
-      //     console.log( val );
-      //     console.log( this.$store.state.prizes );
-      //     this.$router.push('/prizes');
-      //  })
        this.component = "";
-       this.$router.push('/prizes');       
+       this.$router.push('/prizes');      
      }
   },
   created() {
@@ -79,9 +71,9 @@ export default {
    height: 125px;
    width: 100%;   
 }
-h1, .h1 {
+h2, .h2 {
    height: 100%;
-   font-size: 50px;
+   font-size: 40px;
    display: table-cell;
    vertical-align: middle;
 }

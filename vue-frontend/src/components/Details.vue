@@ -5,13 +5,11 @@
             <v-card-media v-bind:src="this.$store.state.prize.image_url" height="100%">
             </v-card-media>
          </v-card>
-
          <div class="card" style="width: 40rem;">
             <div class="card-block">
                <h3 class="card-title">{{ this.$store.state.prize.name }}</h3>
                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                <div class="hr"></div>
-               <!-- <button class="btn-redeem h3" @click="onRedeem">Redeem</button> -->
                <v-btn class="btn-redeem h3" @click="onRedeem"
                   :class="{ red: !valid }" :disabled="!valid" >Redeem</v-btn>
                <div class="hr"></div>
@@ -27,11 +25,9 @@
 
 <script>
 export default {
-   // props: ['prizes'],
    data() {
       return {
-         routeId: '',
-         // prize: ''
+         routeId: ''
       }
    },
    computed: {
@@ -39,17 +35,6 @@ export default {
          return this.$store.state.prize.quantity > 0 ? true : false;
       }
    },
-   // watch: {
-   //    prizes: function() {
-   //       for (let i = 0; i < this.$store.state.prizes.length; i++ ) {
-   //          if ( this.prizes[i].id === this.routeId ) {
-   //             return this.prize = this.prizes[i];
-   //          }
-   //       }
-   //       console.log( this.prize );
-   //       return this.prize.id;
-   //    }
-   // },
    mounted() {
       this.routeId = location.pathname.replace("/details/", "");
    },
@@ -113,11 +98,6 @@ export default {
       border: none;
       margin: 20px auto;
    }
-   /* .btn-redeem:hover {
-      transition: 0.2s;
-      background: #FFCA28;
-      color: black;
-   } */
    .back {
       margin: 50px;
       color: white;

@@ -40,14 +40,14 @@ export default {
   },
   methods: {
      destroy: function() {
-        console.log("continue");
-        console.log( this.$store.state.prizes );
+      //   console.log("continue");
+      //   console.log( this.$store.state.prizes );
         this.$emit("destroy");
      },
      onConfirmation: function() {
          this.$http.put(`${ location.origin }/api/decrement/${ this.prizeId }`)
          .then( response => {
-            console.log( response );
+            // console.log( response );
             return response.text();
          })
          .then( msg => {
@@ -55,7 +55,7 @@ export default {
             this.message = msg;
 
             this.$store.dispatch('fetchPrizeData');
-            console.log( this.$store.state.prizes );
+            // console.log( this.$store.state.prizes );
          })
          .catch( error => {
             console.log( error );

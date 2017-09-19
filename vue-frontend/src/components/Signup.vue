@@ -73,9 +73,10 @@ export default {
           firebase.auth().createUserWithEmailAndPassword( this.email, this.password )
           .then( response => {
              if( response ) {
-                console.log( "success" );            
-                this.$store.state.changeAuthState();
-                this.$router.push('/prizes');
+               // console.log("success");
+               this.$store.commit('setAuthState');        
+               this.$router.push('/prizes');  
+               // this.$store.dispatch('fetchAuthState', this.$router.push('/prizes'));
              }
           })
           .catch( error => {
