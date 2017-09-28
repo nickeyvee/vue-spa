@@ -1,6 +1,6 @@
 <template>
    <div class="container">
-      <v-card class="prize" v-for="prize in prizes" v-bind:key="prize.id" style="width: 32rem;">
+      <v-card class="prize" v-for="( prize, index ) in prizes" v-bind:key="prize.id" style="width: 32rem;">
          <v-card-media v-bind:src="prize.image_url" height="300px">
          </v-card-media>
 
@@ -18,19 +18,19 @@
 export default {
   computed: {
      prizes: function() {
-         return this.$store.state.prizes
+         return this.$store.state.prizes;
+     },
+     imageCache: function() {
+        return this.$store.state.imageCache;
      }
   },
   methods: {
      getCurrent: function( el ) {
-      //   console.log("redeem clicked");   
-      //   console.log( el );
         this.$store.commit('setCurrentPrize', el );
         this.$router.push(`/details/${ el.id }`);
      }
   },
   mounted() {
-      // console.log('mounted prizes vue');
       this.$store.state.title = "Catalogue"
   }
 }

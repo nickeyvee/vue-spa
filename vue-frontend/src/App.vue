@@ -30,8 +30,12 @@ export default {
          showDialog: false,
          component: "",
          prizeId: "",
-         title: "Signup",
-         authState: firebase.auth().currentUser
+         title: "Signup"
+     }
+  },
+  computed: {
+     auth: function() {
+        return this.$store.state.authState;
      }
   },
   methods: {
@@ -40,15 +44,12 @@ export default {
        this.component = "dialog-box";      
      },
      updateAuthState: function() {
-       this.authState = firebase.auth().currentUser
+      this.$store.commit('setAuthState');
     },
     destroyDialog: function() {
        this.component = "";
        this.$router.push('/prizes');      
      }
-  },
-  created() {
-     this.$store.dispatch('fetchPrizeData');
   }
 }
 </script>

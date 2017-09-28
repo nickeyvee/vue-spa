@@ -62,7 +62,7 @@ export default {
                password: this.password.toString()
             })
             .then(() => {
-               console.log( 'redirect');
+               // console.log( 'redirect');
                this.$router.push('/prizes');
             })
             .catch(error => {

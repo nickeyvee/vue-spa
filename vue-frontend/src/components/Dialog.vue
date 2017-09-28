@@ -19,7 +19,7 @@
          </div>
 
          <div class="card-item" v-else-if="response">
-            <h3>{{ message }}</h3>
+            <h2>{{ message }}</h2>
             <div class="hr"></div>
             <v-btn type="button" class="btn btn-warning btn-lg btn-block" @click="destroy">Continue</v-btn>
          </div>
@@ -40,8 +40,6 @@ export default {
   },
   methods: {
      destroy: function() {
-      //   console.log("continue");
-      //   console.log( this.$store.state.prizes );
         this.$emit("destroy");
      },
      onConfirmation: function() {

@@ -25,6 +25,12 @@ new Vue({
   components: {
     App
   },
+  beforeCreate() {
+
+   // ---- PRE-LOAD DATA ----
+
+    this.$store.dispatch('fetchPrizeData');
+  },
   created() {
 
     firebase.initializeApp({
@@ -47,5 +53,6 @@ new Vue({
           console.log(err);
         }
       });
+
   }
 })

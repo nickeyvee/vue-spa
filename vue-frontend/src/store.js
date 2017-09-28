@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
     dialog_active: false,
     dialog_state: 'redeem',
     dialog_msg: '',
+    imageChache: [],
     prizes: null,
     prize: null,
   },
@@ -23,10 +24,9 @@ export const store = new Vuex.Store({
     setAuthState(state, payload) {
       state.authState = firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          console.log(user);
           this.authState = user;
         } else {
-          console.log('No user is signed in');
+         //  console.log('No user is signed in');
           state.authState = user;
         }
       });
@@ -53,7 +53,6 @@ export const store = new Vuex.Store({
     },
     logout() {
       return firebase.auth().signOut().then(() => {
-        console.log('signed out')
         store.commit('setAuthState');
       });
     },
@@ -62,7 +61,6 @@ export const store = new Vuex.Store({
       payload;
     },
     persistLocalSession() {
-      console.log('invoked action persistSession')
       return new Promise((reject, resolve) => {
           resolve(store.commit('setAuthState'));
         })
@@ -76,21 +74,21 @@ export const store = new Vuex.Store({
       store.commit('setCurrentPrize', prizeName);
     },
     fetchPrizeData() {
-      let cache = [];
-      Vue.http.get(`${ location.origin }/api/data`)
+      return Vue.http.get(`${ location.origin }/api/data`)
         .then(response => {
           return response.json();
         })
         .then(json => {
           // console.log("resolved json response");
           // console.log(json.data);
+          const newImage = new Image(450,300);
           const mapped = json.data.map(prize => {
             return {
               id: prize._id,
               name: prize.name,
               desc: prize.description,
               quantity: prize.quantity,
-              image_url: prize.image_url
+              image_url: newImage.scr = prize.image_url
             }
           })
           store.commit('setPrizes', mapped);
@@ -101,6 +99,9 @@ export const store = new Vuex.Store({
             console.log(error);
           }
         })
+    },
+    preloadImages() { 
+       store.commit('getImageUrls');
     }
   }
 });
