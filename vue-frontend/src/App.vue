@@ -63,6 +63,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   text-align: center;
+  min-height: 100%;
   color: #2c3e50;
 }
 .banner {

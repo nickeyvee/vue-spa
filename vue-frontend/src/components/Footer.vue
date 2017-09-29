@@ -17,11 +17,10 @@ export default {
 
 <style scoped>
    .footer {   
-      left: 0;
       bottom: 0;  
       width: 100%;
       height: 175px;
-      position: static;
+      position: absolute;
       background: black;
       margin: 0 auto;
    }

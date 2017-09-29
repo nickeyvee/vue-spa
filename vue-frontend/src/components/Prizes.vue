@@ -39,6 +39,7 @@ export default {
 <style scoped>
    .container {
       display: flex;
+      padding-bottom: 200px;
       flex-wrap: wrap;
       flex-grow: 2;
       width: 90%;  

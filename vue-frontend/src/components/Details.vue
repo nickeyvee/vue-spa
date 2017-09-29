@@ -54,6 +54,7 @@ export default {
    .container {
       position: relative;
       min-height: 650px;
+      padding-bottom: 200px;
       z-index: 1;
    }
    .hr {
